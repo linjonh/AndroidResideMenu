@@ -7,9 +7,13 @@ import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.*;
 import android.view.animation.AnimationUtils;
+import android.widget.Adapter;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.ScrollView;
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
@@ -36,11 +40,11 @@ public class ResideMenu extends FrameLayout{
 
     private ImageView imageViewShadow;
     private ImageView imageViewBackground;
-    private LinearLayout layoutLeftMenu;
+    private ListView layoutLeftMenu;
     private LinearLayout layoutRightMenu;
-    private ScrollView scrollViewLeftMenu;
+    private ViewGroup scrollViewLeftMenu;
     private ScrollView scrollViewRightMenu;
-    private ScrollView scrollViewMenu;
+    private ViewGroup scrollViewMenu;
     /** the activity that view attach to */
     private Activity activity;
     /** the decorview of the activity    */
@@ -75,10 +79,10 @@ public class ResideMenu extends FrameLayout{
         LayoutInflater inflater = (LayoutInflater)
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.residemenu, this);
-        scrollViewLeftMenu = (ScrollView) findViewById(R.id.sv_left_menu);
+        scrollViewLeftMenu = (ViewGroup) findViewById(R.id.sv_left_menu);
         scrollViewRightMenu = (ScrollView) findViewById(R.id.sv_right_menu);
         imageViewShadow = (ImageView) findViewById(R.id.iv_shadow);
-        layoutLeftMenu = (LinearLayout) findViewById(R.id.layout_left_menu);
+        layoutLeftMenu = (ListView) findViewById(R.id.layout_left_menu);
         layoutRightMenu = (LinearLayout) findViewById(R.id.layout_right_menu);
         imageViewBackground = (ImageView) findViewById(R.id.iv_background);
     }
@@ -102,7 +106,6 @@ public class ResideMenu extends FrameLayout{
     public void attachToActivity(Activity activity){
         initValue(activity);
         setShadowAdjustScaleXByOrientation();
-        viewDecor.addView(this, 0);
     }
 
     private void initValue(Activity activity){
@@ -119,8 +122,11 @@ public class ResideMenu extends FrameLayout{
         addView(viewActivity);
 
         ViewGroup parent = (ViewGroup) scrollViewLeftMenu.getParent();
-        parent.removeView(scrollViewLeftMenu);
-        parent.removeView(scrollViewRightMenu);
+//        parent.removeView(scrollViewLeftMenu);
+        scrollViewLeftMenu.setVisibility(GONE);
+//        parent.removeView(scrollViewRightMenu);
+        scrollViewRightMenu.setVisibility(GONE);
+        viewDecor.addView(this, 0);
     }
 
     private void setShadowAdjustScaleXByOrientation(){
@@ -163,7 +169,7 @@ public class ResideMenu extends FrameLayout{
     @Deprecated
     public void addMenuItem(ResideMenuItem menuItem){
         this.leftMenuItems.add(menuItem);
-        layoutLeftMenu.addView(menuItem);
+//        layoutLeftMenu.addView(menuItem);
     }
 
     /**
@@ -175,13 +181,18 @@ public class ResideMenu extends FrameLayout{
     public void addMenuItem(ResideMenuItem menuItem, int direction){
         if (direction == DIRECTION_LEFT){
             this.leftMenuItems.add(menuItem);
-            layoutLeftMenu.addView(menuItem);
+//            layoutLeftMenu.addView(menuItem);
         }else{
             this.rightMenuItems.add(menuItem);
             layoutRightMenu.addView(menuItem);
         }
     }
-
+    public void setLeftMenuAdapter(ListAdapter adapter){
+    	layoutLeftMenu.setAdapter(adapter);
+    }
+    public void setLetMenuOnItemClickListener(OnItemClickListener listener){
+    	layoutLeftMenu.setOnItemClickListener(listener);
+    }
     /**
      * set the menu items by array list to left menu;
      *
@@ -208,10 +219,10 @@ public class ResideMenu extends FrameLayout{
     }
 
     private void rebuildMenu(){
-        layoutLeftMenu.removeAllViews();
+//        layoutLeftMenu.removeAllViews();
         layoutRightMenu.removeAllViews();
-        for(int i = 0; i < leftMenuItems.size() ; i ++)
-            layoutLeftMenu.addView(leftMenuItems.get(i), i);
+//        for(int i = 0; i < leftMenuItems.size() ; i ++)
+//            layoutLeftMenu.addView(leftMenuItems.get(i), i);
         for(int i = 0; i < rightMenuItems.size() ; i ++)
             layoutRightMenu.addView(rightMenuItems.get(i), i);
     }
@@ -592,15 +603,17 @@ public class ResideMenu extends FrameLayout{
         public void closeMenu();
     }
 
-    private void showScrollViewMenu(ScrollView scrollViewMenu){
-        if (scrollViewMenu != null && scrollViewMenu.getParent() == null){
-            addView(scrollViewMenu);
-        }
+    private void showScrollViewMenu(ViewGroup scrollViewMenu){
+//        if (scrollViewMenu != null && scrollViewMenu.getParent() == null){
+//            addView(scrollViewMenu);
+//        }
+    	scrollViewMenu.setVisibility(VISIBLE);
     }
 
-    private void hideScrollViewMenu(ScrollView scrollViewMenu){
-        if (scrollViewMenu != null && scrollViewMenu.getParent() != null){
-            removeView(scrollViewMenu);
-        }
+    private void hideScrollViewMenu(ViewGroup scrollViewMenu){
+//        if (scrollViewMenu != null && scrollViewMenu.getParent() != null){
+//            removeView(scrollViewMenu);
+//        }
+    	scrollViewMenu.setVisibility(GONE);
     }
 }
