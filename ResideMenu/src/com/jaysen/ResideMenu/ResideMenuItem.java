@@ -42,6 +42,9 @@ public class ResideMenuItem extends LinearLayout{
         inflater.inflate(R.layout.residemenu_item, this);
         iv_icon = (ImageView) findViewById(R.id.iv_icon);
         tv_title = (TextView) findViewById(R.id.tv_title);
+        LayoutParams params=new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, 20, 0, 0);
+        setLayoutParams(params);
     }
 
     /**
