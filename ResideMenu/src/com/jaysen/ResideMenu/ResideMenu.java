@@ -1,4 +1,4 @@
-package com.special.ResideMenu;
+package com.jaysen.ResideMenu;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,6 +15,7 @@ import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
+import com.special.ResideMenu.R;
 
 import java.util.ArrayList;
 import java.util.List;

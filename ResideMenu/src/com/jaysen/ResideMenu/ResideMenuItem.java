@@ -1,4 +1,4 @@
-package com.special.ResideMenu;
+package com.jaysen.ResideMenu;
 
 import android.content.Context;
 import android.view.LayoutInflater;
